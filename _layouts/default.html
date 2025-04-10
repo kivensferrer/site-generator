@@ -1,20 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ page.title }}</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; max-width: 700px; margin: auto; }
-  </style>
+  <meta name="description" content="{{ page.description }}" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <h1>{{ page.title }}</h1>
-    <p><em>{{ page.description }}</em></p>
-    <hr>
-  </header>
-  <main>
-    {{ content }}
-  </main>
+<body class="bg-gray-50 text-gray-900 font-sans leading-relaxed tracking-wide">
+
+  <div class="max-w-4xl mx-auto px-6 py-10">
+
+    <header class="border-b border-gray-300 pb-4 mb-8">
+      <h1 class="text-4xl font-bold">{{ page.title }}</h1>
+      <p class="text-gray-600 text-sm mt-1">{{ page.description }}</p>
+      <p class="text-gray-400 text-xs mt-2">By {{ page.author }} on {{ page.date }}</p>
+    </header>
+
+    {% if page.cover_image %}
+      <img src="{{ page.cover_image }}" alt="Cover Image" class="rounded-lg shadow mb-8" />
+    {% endif %}
+
+    <main class="prose max-w-none">
+      {{ content }}
+    </main>
+
+    {% if page.cta %}
+      <div class="mt-12 bg-white border border-gray-300 p-6 rounded-lg text-center">
+        <h2 class="text-xl font-semibold mb-2">Want more?</h2>
+        <p>{{ page.cta }}</p>
+      </div>
+    {% endif %}
+
+    <footer class="text-sm text-gray-500 mt-16 border-t border-gray-300 pt-4">
+      &copy; {{ site.time | date: "%Y" }} {{ site.title }} — All rights reserved.
+    </footer>
+
+  </div>
+
 </body>
 </html>

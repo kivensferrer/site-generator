@@ -39,25 +39,51 @@
   <script>
     const form = document.getElementById("generator-form");
     const result = document.getElementById("result");
-
+  
+    async function checkIfLive(url, retries = 15, interval = 3000) {
+      for (let i = 0; i < retries; i++) {
+        try {
+          const res = await fetch(url, { method: "HEAD" });
+          if (res.ok) {
+            return true;
+          }
+        } catch (e) {
+          // Still waiting
+        }
+        await new Promise(r => setTimeout(r, interval));
+      }
+      return false;
+    }
+  
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const context = form.context.value;
-
-      result.textContent = "Generating post...";
+      const context = form.context.value.trim();
+      if (!context) return;
+  
+      result.innerHTML = "🧠 Generating page...";
+      
       const res = await fetch("/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ context })
       });
-
+  
       const data = await res.json();
-      if (data.url) {
-        result.innerHTML = `✅ Post created: <a href="${data.url}" target="_blank">${data.url}</a>`;
+      if (!data.url) {
+        result.textContent = "❌ Failed to generate page.";
+        return;
+      }
+  
+      const pageUrl = data.url;
+      result.innerHTML = `⏳ Page generated. Waiting for deployment...<br><code>${pageUrl}</code>`;
+  
+      const isLive = await checkIfLive(pageUrl);
+      if (isLive) {
+        result.innerHTML = `✅ Page is live: <a href="${pageUrl}" target="_blank">${pageUrl}</a>`;
       } else {
-        result.textContent = "❌ Failed to generate post.";
+        result.innerHTML = `⚠️ Page was generated but not live yet.<br><a href="${pageUrl}" target="_blank">${pageUrl}</a><br>Try again in a moment.`;
       }
     });
-  </script>
+  </script>  
 </body>
 </html>
