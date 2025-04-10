@@ -86,7 +86,8 @@ Include title, description, and today's date. Context: ${context}`;
     });
 
     // Step 3: Respond with the live URL
-    const postUrl = `https://${REPO_OWNER}.github.io/${REPO_NAME}/${POSTS_DIR}/${filename}`;
+    const postSlug = filename.replace(/\.md$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
+    const postUrl = `https://${REPO_OWNER}.github.io/${REPO_NAME}/${postSlug}`;
     res.json({ url: postUrl });
   } catch (err) {
     console.error("❌ Error:", err);
