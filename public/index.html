@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generate a Post</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 1em;
+    }
+    button {
+      margin-top: 1em;
+      padding: 0.5em 1em;
+      font-size: 1em;
+    }
+    #result {
+      margin-top: 2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generate a Blog Post with ChatGPT</h1>
+  <p>Enter your context below:</p>
+  <form id="generator-form">
+    <textarea name="context" required placeholder="e.g. Benefits of sunflower microgreens for chefs..."></textarea>
+    <br>
+    <button type="submit">Generate</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById("generator-form");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const context = form.context.value;
+
+      result.textContent = "Generating post...";
+      const res = await fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ context })
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        result.innerHTML = `✅ Post created: <a href="${data.url}" target="_blank">${data.url}</a>`;
+      } else {
+        result.textContent = "❌ Failed to generate post.";
+      }
+    });
+  </script>
+</body>
+</html>

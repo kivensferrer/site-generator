@@ -1,0 +1,8 @@
+title: My GPT Blog
+description: Site powered by ChatGPT and Jekyll
+baseurl: ""
+url: "https://kivensferrer.github.io/site-generator"
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
