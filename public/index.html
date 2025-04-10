@@ -44,12 +44,8 @@
       for (let i = 0; i < retries; i++) {
         try {
           const res = await fetch(url, { method: "HEAD" });
-          if (res.ok) {
-            return true;
-          }
-        } catch (e) {
-          // Still waiting
-        }
+          if (res.ok) return true;
+        } catch (e) {}
         await new Promise(r => setTimeout(r, interval));
       }
       return false;
@@ -60,8 +56,8 @@
       const context = form.context.value.trim();
       if (!context) return;
   
-      result.innerHTML = "🧠 Generating page...";
-      
+      result.innerHTML = `<p>🧠 Generating pages for: <em>${context}</em></p>`;
+  
       const res = await fetch("/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,21 +65,38 @@
       });
   
       const data = await res.json();
-      if (!data.url) {
-        result.textContent = "❌ Failed to generate page.";
+      if (!data.pages || data.pages.length === 0) {
+        result.innerHTML = "❌ Failed to generate pages.";
         return;
       }
   
-      const pageUrl = data.url;
-      result.innerHTML = `⏳ Page generated. Waiting for deployment...<br><code>${pageUrl}</code>`;
+      const list = document.createElement("ul");
+      result.innerHTML = `<p>⏳ Checking deployment status...</p>`;
+      result.appendChild(list);
   
-      const isLive = await checkIfLive(pageUrl);
-      if (isLive) {
-        result.innerHTML = `✅ Page is live: <a href="${pageUrl}" target="_blank">${pageUrl}</a>`;
-      } else {
-        result.innerHTML = `⚠️ Page was generated but not live yet.<br><a href="${pageUrl}" target="_blank">${pageUrl}</a><br>Try again in a moment.`;
-      }
+      data.pages.forEach(({ layout, url }) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${layout}</strong>: <span class="url">${url}</span> <span class="status">⏳</span>`;
+        list.appendChild(li);
+  
+        checkIfLive(url).then((isLive) => {
+          if (isLive) {
+            const urlEl = li.querySelector(".url");
+            const statusEl = li.querySelector(".status");
+            const a = document.createElement("a");
+            a.href = url;
+            a.textContent = url;
+            a.target = "_blank";
+            urlEl.replaceWith(a);
+            statusEl.textContent = "✅";
+          } else {
+            li.querySelector(".status").textContent = "⚠️ Not live yet";
+          }
+        });
+      });
     });
-  </script>  
+  </script>
+  
+  
 </body>
 </html>

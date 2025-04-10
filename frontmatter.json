@@ -1,0 +1,24 @@
+{
+    "templates":[
+        "default",
+        "light",
+        "dark"
+   ], 
+    "required": [
+        "layout",
+       "title",
+       "description",
+       "author",
+       "date",
+       "tags",
+       "category",
+       "permalink"
+     ],
+     "optional": [
+       "cover_image",
+       "cta",
+       "keywords",
+       "slug",
+       "summary"
+     ]
+   }

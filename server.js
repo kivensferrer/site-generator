@@ -8,6 +8,12 @@ const bodyParser = require("body-parser");
 const OpenAI = require("openai");
 const { Octokit } = require("@octokit/rest");
 const dayjs = require("dayjs");
+const frontmatter = require("./frontmatter.json");
+const fs = require("fs");
+const schema = JSON.parse(fs.readFileSync("frontmatter.json", "utf-8"));
+
+const requiredFields = frontmatter.required.map(f => `- ${f}`).join("\n");
+const optionalFields = frontmatter.optional.map(f => `- ${f}`).join("\n");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -29,7 +35,7 @@ const REPO_OWNER = "kivensferrer";
 const REPO_NAME = "site-generator";
 const BRANCH = "main";
 const PAGES_DIR = "site-pages";
-const LAYOUTS = ["dark", "light", "default"];
+const LAYOUTS = schema.templates;
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^\w]+/g, "-").replace(/^-+|-+$/g, "");
@@ -49,11 +55,16 @@ app.post("/generate", async (req, res) => {
       const filename = `${slug}.md`;
       const path = `${PAGES_DIR}/${filename}`;
 
-      const prompt = `Generate rich YAML Front Matter for a Jekyll page.
-Required fields: layout ("${layout}"), title, description, author, date (today), tags, category, permalink (based on context and layout), and optional fields: cover_image and cta.
-Use layout: "${layout}" and permalink: "/${slug}/".
-Return ONLY the front matter, starting and ending with "---".
-Context: ${context}`;
+      const prompt = `Generate YAML Front Matter for a Jekyll page.
+    REQUIRED FIELDS:
+    ${requiredFields}
+
+    OPTIONAL FIELDS:
+    ${optionalFields}
+
+    Use layout: "${layout}", and generate a permalink like "/${slug}/".
+    Return ONLY the front matter.
+    Context: ${context}`;
 
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
