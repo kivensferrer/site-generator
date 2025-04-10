@@ -1,9 +1,6 @@
-process.on("uncaughtException", (err) => {
-    console.error("💥 Uncaught Exception:", err);
-  });
-  process.on("unhandledRejection", (err) => {
-    console.error("💥 Unhandled Rejection:", err);
-  });
+// Error protection
+process.on("uncaughtException", err => console.error("💥 Uncaught Exception:", err));
+process.on("unhandledRejection", err => console.error("💥 Unhandled Rejection:", err));
 
 require("dotenv").config();
 const express = require("express");
@@ -15,87 +12,75 @@ const dayjs = require("dayjs");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
 app.use(bodyParser.json());
-app.use(express.static("public")); // Serves your frontend
+app.use(express.static("public")); // Serves frontend
 
-// Setup OpenAI
+// OpenAI setup
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-// Setup GitHub API
+// GitHub setup
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
-// Your GitHub repo details
 const REPO_OWNER = "kivensferrer";
 const REPO_NAME = "site-generator";
-const BRANCH = "main"; // or "master"
-const POSTS_DIR = "_posts";
+const BRANCH = "main";
+const PAGES_DIR = "site-pages";
 
 function slugify(text) {
-  return text.toLowerCase().replace(/[^\w]+/g, "-");
+  return text.toLowerCase().replace(/[^\w]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-// Routes
 app.post("/generate", async (req, res) => {
   try {
     const context = req.body.context;
     if (!context) return res.status(400).json({ error: "Missing context" });
 
-    // Step 1: Ask ChatGPT for Front Matter
-    const prompt = `Generate only YAML Front Matter for a Jekyll blog post. Use layout "dark".
-Include title, description, and today's date. Context: ${context}`;
+    const slug = slugify(context);
+    const filename = `${slug}.md`;
+    const path = `${PAGES_DIR}/${filename}`;
+
+    console.log("🧠 Sending prompt to GPT...");
+
+    const prompt = `Generate YAML Front Matter for a Jekyll PAGE (not a blog post).
+Use layout 'dark', include title, description, and permalink like /${slug}/.
+Only return the YAML front matter (start and end with ---).`;
 
     const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
     });
-  
 
     const frontMatter = completion.choices[0].message.content.trim();
-    if (!completion.choices || !completion.choices[0]) {
-        throw new Error("GPT response did not contain choices!");
-    }
-    const body = `This post was generated using the context: "${context}"`;
+    const body = `This page was generated from the context: "${context}".`;
 
     const content = `${frontMatter}\n\n${body}`;
-    const slug = slugify(context);
-    const date = dayjs().format("YYYY-MM-DD");
-    const filename = `${date}-${slug}.md`;
-    const path = `${POSTS_DIR}/${filename}`;
-
-    // Step 2: Push to GitHub
-    const { data: { sha: latestSha } } = await octokit.repos.getBranch({
-      owner: REPO_OWNER,
-      repo: REPO_NAME,
-      branch: BRANCH,
-    });
-
     const base64Content = Buffer.from(content).toString("base64");
+
+    console.log("📦 Committing to GitHub:", path);
 
     await octokit.repos.createOrUpdateFileContents({
       owner: REPO_OWNER,
       repo: REPO_NAME,
       path,
-      message: `Add new post: ${filename}`,
+      message: `Add new page: ${filename}`,
       content: base64Content,
       branch: BRANCH,
     });
 
-    // Step 3: Respond with the live URL
-    const postSlug = filename.replace(/\.md$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
-    const postUrl = `https://${REPO_OWNER}.github.io/${REPO_NAME}/${postSlug}`;
-    res.json({ url: postUrl });
+    const liveUrl = `https://${REPO_OWNER}.github.io/${REPO_NAME}/${slug}/`;
+    console.log("✅ Page live at:", liveUrl);
+    res.json({ url: liveUrl });
+
   } catch (err) {
     console.error("❌ Error:", err);
-    res.status(500).json({ error: "Failed to generate post" });
+    res.status(500).json({ error: "Page generation failed" });
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
