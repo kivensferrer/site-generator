@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --primary-color: #0d6efd;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --primary-color: #bb86fc;
+    }
+
+    [data-theme="christmas"] {
+      --bg-color: #006400;
+      --text-color: #ffffff;
+      --primary-color: #ff0000;
+    }
+
+    [data-theme="halloween"] {
+      --bg-color: #2c2c2c;
+      --text-color: #ffa500;
+      --primary-color: #ff4500;
+    }
+
+    [data-theme="modern-blue"] {
+      --bg-color: #e3f2fd;
+      --text-color: #0d47a1;
+      --primary-color: #2196f3;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .navbar, .footer {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+    }
+
+    /* Custom styles for carousel arrows */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      background-image: none; /* Remove default Bootstrap arrow background images */
+      background-color: var(--bg-color); /* Use the theme's background color for the arrow background */
+      border-radius: 50%; /* Make the arrows circular */
+      width: 3rem; /* Adjust size */
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Custom arrow content */
+    .carousel-control-prev-icon::before,
+    .carousel-control-next-icon::before {
+      color: var(--text-color); /* Use the theme's text color for the arrow */
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .carousel-control-prev-icon::before {
+      content: '<'; /* Add custom left arrow */
+    }
+
+    .carousel-control-next-icon::before {
+      content: '>'; /* Add custom right arrow */
+    }
+    
+    /* Theme-based card styling */
+    .product-card {
+      background-color: var(--bg-color); /* Use theme's background color */
+      color: var(--text-color); /* Use theme's text color */
+      border: 1px solid var(--primary-color); /* Add a border with the primary color */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    }
+
+    .product-card:hover {
+      transform: scale(1.05); /* Slight scale-up on hover */
+      box-shadow: 0 0 15px var(--primary-color); /* Glow effect with the primary color */
+    }
+
+    .product-card .card-title {
+      font-weight: bold;
+    }
+
+    .product-card .card-text {
+      font-size: 0.9rem;
+    }
+
+    #team {
+      background-color: var(--bg-color); /* Use theme's background color */
+      color: var(--text-color); /* Use theme's text color */
+    }
+
+    .team-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+      border: 1px solid var(--primary-color); /* Border with primary color */
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px); /* Slight elevation on hover */
+      box-shadow: 0 0 15px var(--primary-color); /* Glow effect with primary color */
+    }
+
+    .team-card .card-title {
+      font-weight: bold;
+    }
+
+    .team-card .social-icons .btn {
+      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effects for buttons */
+    }
+
+    .team-card .social-icons .btn:hover {
+      background-color: var(--primary-color); /* Fill button with primary color on hover */
+      color: var(--bg-color); /* Change text color to background color */
+    }
+
+    #impact {
+      background-color: var(--bg-color); /* Use theme's background color */
+    }
+
+    .impact-card {
+      background-color: var(--bg-color); /* Use theme's background color */
+      border: 1px solid var(--primary-color); /* Border with primary color */
+      border-radius: 10px; /* Rounded corners */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    }
+
+    .impact-card:hover {
+      transform: translateY(-5px); /* Slight elevation on hover */
+      box-shadow: 0 0 15px var(--primary-color); /* Glow effect with primary color */
+    }
+
+    .impact-card h3 {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .impact-card p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .footer {
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+      padding: 1.5rem 0; /* Increased padding for breathing room */
+      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transitions */
+    }
+
+    .footer p {
+      font-size: 0.9rem; /* Slightly smaller font size for a refined look */
+      opacity: 0.8; /* Muted opacity for text */
+      margin: 0; /* Remove default margin */
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Company</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+          <li class="nav-item"><a class="nav-link" href="#impact">Impact</a></li>
+        </ul>
+        <select id="themeSelector" class="form-select w-auto">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="christmas">Christmas</option>
+          <option value="halloween">Halloween</option>
+          <option value="modern-blue">Modern Blue</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+  <header class="d-flex align-items-center justify-content-center text-center" style="height: 50vh; background: linear-gradient(to bottom, var(--primary-color), var(--bg-color));">
+    <div>
+      <h1 class="display-4">Welcome to Our Company</h1>
+      <p class="lead">Your one-stop solution for all your needs.</p>
+    </div>
+  </header>
+
+  <section id="services" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Services</h2>
+      <div id="servicesCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="d-flex flex-column align-items-center">
+              <img src="https://www.wscubetech.com/blog/wp-content/uploads/2024/04/generative-ai.webp" class="mb-3" alt="Service 1" style="width: 100%; max-width: 400px; border-radius: 10px;">
+              <h5 class="mb-3">Service 1</h5>
+              <p class="text-center">Description of Service 1.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="d-flex flex-column align-items-center">
+              <img src="https://emeritus.org/wp-content/uploads/2023/11/tech.png.webp" class="mb-3" alt="Service 2" style="width: 100%; max-width: 400px; border-radius: 10px;">
+              <h5 class="mb-3">Service 2</h5>
+              <p class="text-center">Description of Service 2.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="d-flex flex-column align-items-center">
+              <img src="https://imageio.forbes.com/specials-images/imageserve/61d52d4e3a76ed81ac034ea8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds" class="mb-3" alt="Service 3" style="width: 100%; max-width: 400px; border-radius: 10px;">
+              <h5 class="mb-3">Service 3</h5>
+              <p class="text-center">Description of Service 3.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="products" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Products</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card product-card h-100">
+            <img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" class="card-img-top" alt="Product 1">
+            <div class="card-body">
+              <h5 class="card-title">Product 1</h5>
+              <p class="card-text">High-quality tech product designed for modern needs.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card product-card h-100">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" class="card-img-top" alt="Product 2">
+            <div class="card-body">
+              <h5 class="card-title">Product 2</h5>
+              <p class="card-text">Innovative gadget to simplify your daily tasks.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card product-card h-100">
+            <img src="https://t4.ftcdn.net/jpg/03/08/69/75/360_F_308697506_9dsBYHXm9FwuW0qcEqimAEXUvzTwfzwe.jpg" class="card-img-top" alt="Product 3">
+            <div class="card-body">
+              <h5 class="card-title">Product 3</h5>
+              <p class="card-text">Cutting-edge innovation for tech enthusiasts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Meet Our Team</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card team-card text-center h-100">
+            <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle mx-auto mt-3" alt="Team Member 1" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">Member 1</h5>
+              <p class="card-text">Role of Member 1</p>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card team-card text-center h-100">
+            <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle mx-auto mt-3" alt="Team Member 2" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">Member 2</h5>
+              <p class="card-text">Role of Member 2</p>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card team-card text-center h-100">
+            <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle mx-auto mt-3" alt="Team Member 3" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">Member 3</h5>
+              <p class="card-text">Role of Member 3</p>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card team-card text-center h-100">
+            <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle mx-auto mt-3" alt="Team Member 4" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">Member 4</h5>
+              <p class="card-text">Role of Member 4</p>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-sm mx-1" style="border-color: var(--primary-color); color: var(--primary-color);">
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="impact" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Impact</h2>
+      <div class="row text-center g-4">
+        <div class="col-md-4">
+          <div class="impact-card p-4">
+            <h3 class="display-4" style="color: var(--primary-color); font-weight: bold;">100+</h3>
+            <p style="color: var(--text-color); font-size: 1.1rem;">Projects Completed</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="impact-card p-4">
+            <h3 class="display-4" style="color: var(--primary-color); font-weight: bold;">50+</h3>
+            <p style="color: var(--text-color); font-size: 1.1rem;">Happy Clients</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="impact-card p-4">
+            <h3 class="display-4" style="color: var(--primary-color); font-weight: bold;">10+</h3>
+            <p style="color: var(--text-color); font-size: 1.1rem;">Years in Business</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer py-4 text-center" style="background-color: var(--bg-color); color: var(--text-color); border-top: 1px solid var(--primary-color);">
+    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">&copy; 2025 Company Name. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const themeSelector = document.getElementById('themeSelector');
+    themeSelector.addEventListener('change', (e) => {
+      document.body.setAttribute('data-theme', e.target.value);
+    });
+  </script>
+</body>
+</html>

@@ -1,8 +1,56 @@
 ---
 layout: try
-title: Benefits of Broccoli Microgreens for Athletes and Presidents
-description: Discover the amazing health benefits of broccoli microgreens for athletes and presidents.
+title: "Company Website"
+company_name: "AI Innovations Inc."
+tagline: "Your one-stop solution for all your needs."
+services:
+  - title: "AI-Powered Analytics"
+    description: "Leverage the power of AI to gain actionable insights."
+    image: "https://images.unsplash.com/photo-1581093588401-9f7c4c6f6e2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+  - title: "Custom Software Development"
+    description: "Tailored software solutions to meet your business needs."
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+  - title: "Cloud Integration"
+    description: "Seamlessly integrate your business with the cloud."
+    image: "https://images.unsplash.com/photo-1555617980-d9834f1f0b1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+products:
+  - title: "AI Assistant"
+    description: "A virtual assistant powered by cutting-edge AI."
+    image: "https://images.unsplash.com/photo-1593642532973-d31b6557fa68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+  - title: "Smart Home Hub"
+    description: "Control your smart home devices with ease."
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+  - title: "IoT Device Manager"
+    description: "Manage all your IoT devices from a single platform."
+    image: "https://t4.ftcdn.net/jpg/03/08/69/75/360_F_308697506_9dsBYHXm9FwuW0qcEqimAEXUvzTwfzwe.jpg"
+team:
+  - name: "Alice Johnson"
+    role: "CEO"
+    image: "https://via.placeholder.com/150"
+    linkedin: "https://linkedin.com/in/alicejohnson"
+    twitter: "https://twitter.com/alicejohnson"
+  - name: "Bob Smith"
+    role: "CTO"
+    image: "https://via.placeholder.com/150"
+    linkedin: "https://linkedin.com/in/bobsmith"
+    twitter: "https://twitter.com/bobsmith"
+  - name: "Charlie Brown"
+    role: "Lead Developer"
+    image: "https://via.placeholder.com/150"
+    linkedin: "https://linkedin.com/in/charliebrown"
+    twitter: "https://twitter.com/charliebrown"
+  - name: "Diana Prince"
+    role: "Marketing Head"
+    image: "https://via.placeholder.com/150"
+    linkedin: "https://linkedin.com/in/dianaprince"
+    twitter: "https://twitter.com/dianaprince"
+impact:
+  - metric: "100+"
+    label: "Projects Completed"
+  - metric: "50+"
+    label: "Happy Clients"
+  - metric: "10+"
+    label: "Years in Business"
+footer_text: "&copy; 2025 AI Innovations Inc. All rights reserved."
 permalink: /try/
 ---
-
-This page was generated from the context: "Benefits of broccoli microgreens for athletes and Presidents".
