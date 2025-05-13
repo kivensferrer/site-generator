@@ -52,5 +52,5 @@ impact:
   - metric: "10+"
     label: "Years in Business"
 footer_text: "&copy; 2025 AI Innovations Inc. All rights reserved."
-permalink: /try/
+permalink: /ai-innovations/
 ---
