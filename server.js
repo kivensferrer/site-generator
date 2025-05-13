@@ -148,7 +148,7 @@ Context: ${context}`;
       const frontMatter = completion.choices[0].message.content.trim();
       const body = `This page was generated from the context: "${context}" using the "${layout}" layout.`;
 
-      const content = `${frontMatter}\n\n${body}`;
+      const content = `${frontMatter}`;
       const base64Content = Buffer.from(content).toString("base64");
 
       console.log(`📦 Committing (${layout}) → ${path}`);
