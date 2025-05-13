@@ -1,24 +1,24 @@
 {
-    "templates":[
-        "default",
-        "light",
-        "dark"
-   ], 
-    "required": [
-        "layout",
-       "title",
-       "description",
-       "author",
-       "date",
-       "tags",
-       "category",
-       "permalink"
-     ],
-     "optional": [
-       "cover_image",
-       "cta",
-       "keywords",
-       "slug",
-       "summary"
-     ]
-   }
+  "templates": [
+    "xennial-01"
+  ],
+  "required": [
+    "layout",
+    "title",
+    "company_name",
+    "tagline",
+    "services",
+    "products",
+    "team",
+    "impact",
+    "footer_text",
+    "permalink"
+  ],
+  "optional": [
+    "cover_image",
+    "cta",
+    "keywords",
+    "slug",
+    "summary"
+  ]
+}
